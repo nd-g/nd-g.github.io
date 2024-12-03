@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date a Deafie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Date a Deafie</h1>
+    <p>Find meaningful connections!</p>
+  </header>
+
+  <main>
+    <!-- Authentication Section -->
+    <section id="auth-section">
+      <h2>Sign Up / Login</h2>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="signUp()">Sign Up</button>
+      <button onclick="login()">Login</button>
+    </section>
+
+    <!-- Profile Creation Section -->
+    <section id="profile-section" style="display: none;">
+      <h2>Create Your Profile</h2>
+      <input type="file" id="profile-pic" accept="image/*">
+      <textarea id="bio" placeholder="Write your bio..."></textarea>
+      <button onclick="saveProfile()">Save Profile</button>
+    </section>
+
+    <!-- Swipe Section -->
+    <section id="swipe-section" style="display: none;">
+      <h2>Discover Profiles</h2>
+      <div id="profile-card" class="card">
+        <img id="profile-image" src="" alt="Profile Picture">
+        <p id="profile-bio"></p>
+      </div>
+      <div class="swipe-buttons">
+        <button onclick="swipe('down')">👎 Swipe Down</button>
+        <button onclick="swipe('up')">👍 Swipe Up</button>
+      </div>
+    </section>
+
+    <!-- Messaging Section -->
+    <section id="messages-section" style="display: none;">
+      <h2>Your Matches</h2>
+      <div id="matches"></div>
+      <div id="chat-section" style="display: none;">
+        <h3 id="chat-with"></h3>
+        <div id="chat-messages"></div>
+        <textarea id="chat-input" placeholder="Type your message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Date a Deafie</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
