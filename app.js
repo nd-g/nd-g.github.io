@@ -1,9 +1,23 @@
 // Import necessary functions from Firebase SDKs
+// Import necessary Firebase functions from CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, setDoc, doc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { 
+  getFirestore, 
+  setDoc, 
+  doc 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { 
+  getStorage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
 // Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBkb-WBCHIa6DCEuMzELE4FBsYwKhR5fAw",
