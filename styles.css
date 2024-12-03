@@ -1,0 +1,75 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f4f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #6c63ff;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+}
+
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+.card {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
+.card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.swipe-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.swipe-buttons button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.swipe-buttons button:first-child {
+  background: #ff6b6b;
+}
+
+.swipe-buttons button:last-child {
+  background: #6c63ff;
+}
+
+.swipe-buttons button:hover {
+  opacity: 0.8;
+}
