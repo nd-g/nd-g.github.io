@@ -1,72 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date a Deafie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date a Deafie</title>
+
+    <!-- Font and Google Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357ab7;
+        }
+
+        .auth-section,
+        .profile-section {
+            display: block;
+        }
+
+        .profile-section {
+            display: none;
+        }
+
+        .auth-section {
+            margin-bottom: 20px;
+        }
+
+        .auth-section input {
+            font-size: 16px;
+        }
+
+        .profile-section textarea {
+            height: 100px;
+        }
+
+        .profile-section img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Date a Deafie</h1>
-    <p>Find meaningful connections!</p>
-  </header>
+    <div class="container">
+        <h1>Date a Deafie</h1>
 
-  <main>
-    <!-- Authentication Section -->
-    <section id="auth-section">
-      <h2>Sign Up / Login</h2>
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button onclick="signUp()">Sign Up</button>
-      <button onclick="login()">Login</button>
-    </section>
+        <!-- Authentication Section -->
+        <div class="auth-section" id="auth-section">
+            <input type="email" id="email" placeholder="Enter your email" />
+            <input type="password" id="password" placeholder="Enter your password" />
+            <button onclick="signUp()">Sign Up</button>
+            <button onclick="login()">Log In</button>
+        </div>
 
-    <!-- Profile Creation Section -->
-    <section id="profile-section" style="display: none;">
-      <h2>Create Your Profile</h2>
-      <input type="file" id="profile-pic" accept="image/*">
-      <textarea id="bio" placeholder="Write your bio..."></textarea>
-      <button onclick="saveProfile()">Save Profile</button>
-    </section>
+        <!-- Profile Section (Only visible after sign-up) -->
+        <div class="profile-section" id="profile-section">
+            <h2>Create Your Profile</h2>
+            <input type="file" id="profile-pic" />
+            <textarea id="bio" placeholder="Write a bio"></textarea>
+            <button onclick="saveProfile(auth.currentUser)">Save Profile</button>
+        </div>
+    </div>
 
-    <!-- Swipe Section -->
-    <section id="swipe-section" style="display: none;">
-      <h2>Discover Profiles</h2>
-      <div id="profile-card" class="card">
-        <img id="profile-image" src="" alt="Profile Picture">
-        <p id="profile-bio"></p>
-      </div>
-      <div class="swipe-buttons">
-        <button onclick="swipe('down')">👎 Swipe Down</button>
-        <button onclick="swipe('up')">👍 Swipe Up</button>
-      </div>
-    </section>
-
-    <!-- Messaging Section -->
-    <section id="messages-section" style="display: none;">
-      <h2>Your Matches</h2>
-      <div id="matches"></div>
-      <div id="chat-section" style="display: none;">
-        <h3 id="chat-with"></h3>
-        <div id="chat-messages"></div>
-        <textarea id="chat-input" placeholder="Type your message..."></textarea>
-        <button onclick="sendMessage()">Send</button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2024 Date a Deafie</p>
-  </footer>
-
-<!-- Your custom JS -->
-  <script src="app.js"></script>
+    <!-- Firebase SDK -->
+    <script type="module" src="app.js"></script>
 </body>
+
 </html>
