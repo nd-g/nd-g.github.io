@@ -1,4 +1,10 @@
-// Firebase Initialization
+// Import necessary functions from Firebase SDKs
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBkb-WBCHIa6DCEuMzELE4FBsYwKhR5fAw",
   authDomain: "date-a-deafie.firebaseapp.com",
@@ -8,114 +14,92 @@ const firebaseConfig = {
   appId: "1:1028508036545:web:cb58d6825235b476761340"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+// Initialize Firebase services
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
 
-let profiles = [];
-let currentIndex = 0;
-let currentMatch = null;
-
-// Sign Up
+// User Authentication - Sign Up
 async function signUp() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  await auth.createUserWithEmailAndPassword(email, password);
-  alert("Account created!");
-  document.getElementById("profile-section").style.display = "block";
+  
+  try {
+    // Create new user with email and password
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    alert("Account created successfully!");
+
+    // Save the profile in Firestore (after sign up)
+    await saveProfile(user);
+
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
-// Save Profile
-async function saveProfile() {
-  const file = document.getElementById("profile-pic").files[0];
-  const bio = document.getElementById("bio").value;
-  const user = auth.currentUser;
+// User Authentication - Log In
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  
+  try {
+    // Sign in the user
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Logged in successfully!");
 
-  const storageRef = storage.ref(`profiles/${user.uid}`);
-  await storageRef.put(file);
-  const imageUrl = await storageRef.getDownloadURL();
-
-  await db.collection("profiles").doc(user.uid).set({ bio, imageUrl, email: user.email });
-  alert("Profile saved!");
-  loadProfiles();
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
-// Load Profiles
-async function loadProfiles() {
-  const snapshot = await db.collection("profiles").get();
-  profiles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  document.getElementById("swipe-section").style.display = "block";
-  displayProfile();
+// Save Profile (Including Image Upload)
+async function saveProfile(user) {
+  const file = document.getElementById("profile-pic").files[0]; // Get the profile image
+  const bio = document.getElementById("bio").value; // Get the bio text
+  
+  if (!file || !bio) {
+    alert("Please upload a picture and write a bio.");
+    return;
+  }
+
+  try {
+    // Upload the image to Firebase Storage
+    const storageRef = ref(storage, `profiles/${user.uid}`);
+    await uploadBytes(storageRef, file);
+    const imageUrl = await getDownloadURL(storageRef); // Get the uploaded image URL
+
+    // Save the profile data to Firestore
+    await setDoc(doc(db, "profiles", user.uid), {
+      bio,
+      imageUrl,
+      email: user.email,
+    });
+
+    alert("Profile saved successfully!");
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
-// Display Profile
-function displayProfile() {
-  if (currentIndex < profiles.length) {
-    const profile = profiles[currentIndex];
-    document.getElementById("profile-image").src = profile.imageUrl;
-    document.getElementById("profile-bio").textContent = profile.bio;
+// Monitor Authentication State (for handling login/logout)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is logged in
+    console.log("User is logged in: ", user);
+    // Show the profile creation section if logged in
+    document.getElementById("profile-section").style.display = "block";
   } else {
-    alert("No more profiles.");
+    // User is logged out
+    console.log("No user is logged in.");
+    document.getElementById("profile-section").style.display = "none";
   }
-}
+});
 
-// Swipe Logic
-async function swipe(direction) {
-  const profile = profiles[currentIndex];
-  const user = auth.currentUser;
-
-  if (direction === "up") {
-    await db.collection("likes").add({ likedBy: user.uid, likedProfile: profile.id });
-    const likeSnapshot = await db.collection("likes")
-      .where("likedBy", "==", profile.id)
-      .where("likedProfile", "==", user.uid)
-      .get();
-
-    if (!likeSnapshot.empty) {
-      await db.collection("matches").add({ user1: user.uid, user2: profile.id });
-      alert("It's a match!");
-      loadMatches();
-    }
-  }
-
-  currentIndex++;
-  displayProfile();
-}
-
-// Load Matches
-async function loadMatches() {
-  const user = auth.currentUser;
-  const snapshot = await db.collection("matches").where("user1", "==", user.uid).get();
-  const matches = snapshot.docs.map(doc => doc.data().user2);
-
-  const matchesDiv = document.getElementById("matches");
-  matchesDiv.innerHTML = "";
-  for (const match of matches) {
-    const profile = await db.collection("profiles").doc(match).get();
-    const data = profile.data();
-    const matchDiv = document.createElement("div");
-    matchDiv.textContent = data.bio;
-    matchDiv.onclick = () => loadChat(match);
-    matchesDiv.appendChild(matchDiv);
-  }
-}
-
-// Load Chat
-async function loadChat(matchId) {
-  currentMatch = matchId;
-  document.getElementById("chat-section").style.display = "block";
-  const snapshot = await db.collection("messages")
-    .where("from", "in", [auth.currentUser.uid, matchId])
-    .where("to", "in", [auth.currentUser.uid, matchId])
-    .orderBy("timestamp")
-    .get();
-
-  const chatMessages = document.getElementById("chat-messages");
-  chatMessages.innerHTML = snapshot.docs.map(doc => `<p>${doc.data().text}</p>`).join("");
-}
-
-// Send Message
-async function sendMessage() {
-  const text = document.getElementById("
+// Export functions to be used in HTML for user interaction
+window.signUp = signUp;
+window.login = login;
+window.saveProfile = saveProfile;
