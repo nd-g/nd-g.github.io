@@ -2,151 +2,205 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date a Deafie</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date a Deafie</title>
+  <style>
+    /* Global styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
 
-    <!-- Font and Google Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    header {
+      text-align: center;
+      background-color: #2d3e50;
+      padding: 40px 20px;
+      color: #fff;
+    }
 
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+    }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-        }
+    header p {
+      font-size: 1.4em;
+      margin: 10px 0;
+      font-weight: 300;
+    }
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            width: 100%;
-            max-width: 450px;
-        }
+    .ads {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px; /* Increased gap between ads */
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        h1 {
-            font-size: 32px;
-            color: #4a90e2;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .ad {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
 
-        input[type="email"],
-        input[type="password"],
-        input[type="file"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+    .ad:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
 
-        input[type="file"] {
-            padding: 5px;
-        }
+    .ad h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: #2d3e50;
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4a90e2;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .ad p {
+      font-size: 1.1em;
+      color: #555;
+      flex-grow: 1;
+    }
 
-        button:hover {
-            background-color: #357ab7;
-        }
+    .footer {
+      background-color: #2d3e50;
+      padding: 40px 20px;
+      color: #fff;
+      text-align: center;
+    }
 
-        .auth-section,
-        .profile-section {
-            display: block;
-        }
+    .footer h3 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
 
-        .profile-section {
-            display: none;
-        }
+    .footer p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
 
-        .auth-section {
-            margin-bottom: 20px;
-        }
+    .footer form {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
 
-        .auth-section input {
-            font-size: 16px;
-        }
+    .footer input[type="submit"] {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
 
-        .profile-section textarea {
-            height: 100px;
-        }
+    .footer input[type="submit"]:hover {
+      background-color: #ff3b2f;
+    }
 
-        .profile-section img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
+    .footer a {
+      color: #ff6f61;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
+    .footer a:hover {
+      text-decoration: underline;
+    }
 
-            h1 {
-                font-size: 28px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5em;
+      }
+
+      header p {
+        font-size: 1.2em;
+      }
+
+      .ads {
+        padding: 15px;
+      }
+
+      .ad h3 {
+        font-size: 1.3em;
+      }
+
+      .footer h3 {
+        font-size: 1.5em;
+      }
+
+      .footer p {
+        font-size: 1.1em;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Date a Deafie</h1>
+  <header>
+    <h1>Date a Deafie</h1>
+    <p>A personals section specifically for Deaf folk</p>
+  </header>
+  <main>
+    <section class="ads">
+      <div class="ad" onclick="viewProfile('user1')">
+        <h3>Adventurous Artist</h3>
+        <p>Looking for someone to explore the world with. I love painting and sunsets.</p>
+      </div>
+      <div class="ad" onclick="viewProfile('user2')">
+        <h3>Coffee Lover</h3>
+        <p>Seeking a coffee buddy who enjoys deep conversations. Let's chat!</p>
+      </div>
+      <div class="ad" onclick="viewProfile('user3')">
+        <h3>Fitness Enthusiast</h3>
+        <p>Love hiking and yoga. Looking for someone to join my fitness journey.</p>
+      </div>
+    </section>
+  </main>
 
-        <!-- Authentication Section -->
-        <div class="auth-section" id="auth-section">
-            <input type="email" id="email" placeholder="Enter your email" />
-            <input type="password" id="password" placeholder="Enter your password" />
-            <button id="signup-btn">Sign Up</button>
-            <button id="login-btn">Log In</button>
-        </div>
+  <section class="footer">
+    <h3>Purchase Your Spot for $1</h3>
+    <p>Want to place your ad here? Purchase a spot for just $1!</p>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="ndg0@yahoo.com">
+      <input type="hidden" name="item_name" value="Date a Deafie Ad Spot">
+      <input type="hidden" name="amount" value="1.00">
+      <input type="hidden" name="currency_code" value="USD">
+      <input type="submit" value="Purchase Ad Spot">
+    </form>
+    <p><a href="contact.html">Contact Us</a> for more details.</p>
+  </section>
 
-        <!-- Profile Section (Only visible after sign-up) -->
-        <div class="profile-section" id="profile-section">
-            <h2>Create Your Profile</h2>
-            <input type="file" id="profile-pic" />
-            <textarea id="bio" placeholder="Write a bio"></textarea>
-            <button id="save-profile-btn">Save Profile</button>
-        </div>
-    </div>
+  <script>
+    // JavaScript for ad interactivity
+    function viewProfile(userId) {
+      const profiles = {
+        user1: { name: "Adventurous Artist", details: "Enjoys painting and long walks on the beach." },
+        user2: { name: "Coffee Lover", details: "Passionate about good coffee and great conversations." },
+        user3: { name: "Fitness Enthusiast", details: "Loves staying active and exploring new hiking trails." }
+      };
 
-    <!-- Firebase App SDK -->
-<script type="module" src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js"></script>
-
-    <!-- Application Logic -->
-    <script type="module" src="app.js"></script>
+      const profile = profiles[userId];
+      if (profile) {
+        alert(`${profile.name}\n\n${profile.details}`);
+      }
+    }
+  </script>
 </body>
 
 </html>
