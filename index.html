@@ -9,15 +9,13 @@
     /* Global styles */
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f1f1f1;
       margin: 0;
       padding: 0;
-      color: #333;
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme changes */
     }
 
     header {
       text-align: center;
-      background-color: #2d3e50;
       padding: 40px 20px;
       color: #fff;
     }
@@ -33,10 +31,106 @@
       font-weight: 300;
     }
 
+    /* Default Mode (Original Look) */
+    .default-mode {
+      background-color: #F8F8F8;
+      color: #333;
+    }
+
+    .default-mode header {
+      background-color: #2C3E50; /* Dark header */
+    }
+
+    .default-mode .ad {
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+
+    .default-mode .footer {
+      background-color: #2C3E50; /* Dark footer */
+    }
+
+    /* Protanopia Mode */
+    .protanopia-mode {
+      background-color: #F1F8F9;
+      color: #2C3E50; /* Darker text for contrast */
+    }
+
+    .protanopia-mode header {
+      background-color: #1E3A6E; /* Dark blue for header */
+    }
+
+    .protanopia-mode .ad {
+      background-color: #F3F8FF; /* Light blue background for cards */
+      border-color: #005F6A; /* Dark teal border */
+    }
+
+    .protanopia-mode .footer {
+      background-color: #1E3A6E; /* Dark blue footer */
+    }
+
+    /* Deuteranopia Mode */
+    .deuteranopia-mode {
+      background-color: #F5F8FA;
+      color: #333;
+    }
+
+    .deuteranopia-mode header {
+      background-color: #E57247; /* Orange-red for header */
+    }
+
+    .deuteranopia-mode .ad {
+      background-color: #FFF6E4; /* Light cream background for cards */
+      border-color: #BF6E35; /* Warm brown border */
+    }
+
+    .deuteranopia-mode .footer {
+      background-color: #E57247; /* Orange-red footer */
+    }
+
+    /* Tritanopia Mode */
+    .tritanopia-mode {
+      background-color: #F4E4D9;
+      color: #333;
+    }
+
+    .tritanopia-mode header {
+      background-color: #D2522B; /* Deep orange-red for header */
+    }
+
+    .tritanopia-mode .ad {
+      background-color: #FFE0B3; /* Soft peach background for cards */
+      border-color: #6A4F36; /* Warm brown border */
+    }
+
+    .tritanopia-mode .footer {
+      background-color: #D2522B; /* Deep orange-red footer */
+    }
+
+    /* DeafBlind Mode */
+    .deafblind-mode {
+      background-color: #333;
+      color: #FFF;
+    }
+
+    .deafblind-mode header {
+      background-color: #000; /* Black header */
+    }
+
+    .deafblind-mode .ad {
+      background-color: #444; /* Darker card background */
+      border-color: #777; /* Darker border */
+    }
+
+    .deafblind-mode .footer {
+      background-color: #000; /* Black footer */
+    }
+
+    /* General Styles for Ads */
     .ads {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px; /* Increased gap between ads */
+      gap: 30px;
       padding: 20px;
       max-width: 1200px;
       margin: 0 auto;
@@ -47,8 +141,10 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
       cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -58,13 +154,13 @@
     .ad:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-color: #ff6f61;
     }
 
     .ad h3 {
       font-size: 1.5em;
       margin-bottom: 10px;
       font-weight: 500;
-      color: #2d3e50;
     }
 
     .ad p {
@@ -73,8 +169,8 @@
       flex-grow: 1;
     }
 
+    /* Footer */
     .footer {
-      background-color: #2d3e50;
       padding: 40px 20px;
       color: #fff;
       text-align: center;
@@ -98,7 +194,7 @@
     }
 
     .footer input[type="submit"] {
-      background-color: #ff6f61;
+      background-color: #ff6f61; /* Red-orange */
       color: #fff;
       border: none;
       padding: 10px 20px;
@@ -113,7 +209,7 @@
     }
 
     .footer a {
-      color: #ff6f61;
+      color: #ff6f61; /* Red-orange */
       text-decoration: none;
       font-weight: 500;
     }
@@ -148,18 +244,77 @@
       }
     }
   </style>
+  <script>
+    function adjustTextSize(size) {
+      const root = document.documentElement;
+      if (size === "large") {
+        root.style.fontSize = "1.25em";
+      } else if (size === "extra-large") {
+        root.style.fontSize = "1.5em";
+      } else {
+        root.style.fontSize = "1em"; // Default size
+      }
+    }
+
+    function adjustColorMode(mode) {
+      const body = document.body;
+      body.className = ""; // Reset classes
+      if (mode === "default") {
+        body.classList.add("default-mode");
+      } else if (mode === "protanopia") {
+        body.classList.add("protanopia-mode");
+      } else if (mode === "deuteranopia") {
+        body.classList.add("deuteranopia-mode");
+      } else if (mode === "tritanopia") {
+        body.classList.add("tritanopia-mode");
+      }
+    }
+
+    function toggleDeafblindMode(mode) {
+      const body = document.body;
+      if (mode === "enable") {
+        body.classList.add("deafblind-mode");
+      } else {
+        body.classList.remove("deafblind-mode");
+      }
+    }
+  </script>
 </head>
 
-<body>
+<body class="default-mode"> <!-- Set the default color mode to 'default' -->
   <header>
     <h1>Date a Deafie</h1>
-    <p>A directory for Deaf events for Deaf singles</p>
+    <div>
+      <label for="text-size">Text Size:</label>
+      <select id="text-size" onchange="adjustTextSize(this.value)">
+        <option value="default">Default</option>
+        <option value="large">Large</option>
+        <option value="extra-large">Extra Large</option>
+      </select>
+    </div>
+    <div>
+      <label for="color-mode">Color Mode:</label>
+      <select id="color-mode" onchange="adjustColorMode(this.value)">
+        <option value="default">Default</option>
+        <option value="protanopia">Protanopia</option>
+        <option value="deuteranopia">Deuteranopia</option>
+        <option value="tritanopia">Tritanopia</option>
+      </select>
+    </div>
+    <div>
+      <label for="deafblind-mode">DeafBlind Mode:</label>
+      <select id="deafblind-mode" onchange="toggleDeafblindMode(this.value)">
+        <option value="disable">Disable DeafBlind Mode</option>
+        <option value="enable">Enable DeafBlind Mode</option>
+      </select>
+    </div>
+    <p>A directory of Deaf events in the DMV to meet people</p>
   </header>
   <main>
     <section class="ads">
-      <div class="ad" onclick="viewProfile('user1')">
+      <div class="ad" onclick="viewProfile('user1')" aria-label="Sign and Vibe - DC: A Lesbian Bar in DC hosting sign and vibe events monthly, including ASL karaoke. Check Instagram @asyouaredc for event details. Address: 500 8th St SE, Washington, DC 20003">
         <h3>Sign and Vibe - DC</h3>
-        <p>As you are.; Lesbian Bar in DC hosts a sign and vibe event monthly in DC. They also do ASL karaoke. Check Instagram for which specific day it is this month (@asyouaredc).</p> 
+        <p>As you are.; Lesbian Bar in DC hosts a sign and vibe event monthly in DC. They also do ASL karaoke. Check Instagram for which specific day it is this month (@asyouaredc).</p>
         <p>Address: 500 8th St SE, Washington, DC 20003</p>
       </div>
     </section>
@@ -167,22 +322,17 @@
 
   <section class="footer">
     <h3>Like This Site? Donations help keep it running</h3>
-<p>Anything is very appreciated but don't feel obligated, thanks :)</p>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-  <input type="hidden" name="cmd" value="_donations">
-  <input type="hidden" name="business" value="ndg0@yahoo.com">
-  <input type="hidden" name="item_name" value="Donation">
-  <input type="hidden" name="currency_code" value="USD">
-  <label for="amount">Enter Donation Amount (USD):</label>
-  <input type="number" name="amount" id="amount" min="1" step="0.01" required>
-  <input type="submit" value="Donate">
-</form>
+    <p>Anything is very appreciated but don't feel obligated, thanks :)</p>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_donations">
+      <input type="hidden" name="business" value="ndg0@yahoo.com">
+      <input type="hidden" name="item_name" value="Donation">
+      <input type="hidden" name="currency_code" value="USD">
+      <label for="amount">Enter Donation Amount (USD):</label>
+      <input type="number" name="amount" id="amount" min="1" step="0.01" required>
+      <input type="submit" value="Donate">
+    </form>
   </section>
-
-  <script>
-    
-    }
-  </script>
 </body>
 
 </html>
