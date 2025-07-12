@@ -1,11 +1,61 @@
 <!DOCTYPE html>
 <html>
-<title>Album Review of the Week</title>
+<title>Project Vision</title>
 <div style="background-color:white;color:black;padding:40px;">
 <div style="background-color:black;color:white;padding:4px;">
 <div style="background-color:white;color:black;padding:26px;">
 <h3 style="font-family:verdana;"> Project Scope</h3>
 <h5 style="font-family:verdana; color:grey"> by DateaDeafie Team | 07/11/2025</h5>
+<style>
+  .controls {
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 0.9em;
+}
+.controls {
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 0.9em;
+  color: #333; /* <-- Dark grey text */
+}
+
+.controls label,
+.controls select {
+  color: #333; /* Ensure all labels and dropdowns are dark grey */
+}
+
+
+.controls label,
+.controls select {
+  margin-right: 10px;
+}
+  </style>
+  <script>
+    function adjustTextSize(size) {
+      const root = document.documentElement;
+      if (size === "large") {
+        root.style.fontSize = "1.25em";
+      } else if (size === "extra-large") {
+        root.style.fontSize = "1.5em";
+      } else {
+        root.style.fontSize = "1em"; // Default size
+      }
+    }
+</script>
+<div class="controls">
+  <label for="text-size">Text Size:</label>
+  <select id="text-size" onchange="adjustTextSize(this.value)">
+    <option value="default">Default</option>
+    <option value="large">Large</option>
+    <option value="extra-large">Extra Large</option>
+  </select>
+</div>
 <hr class="rounded">
 <h4 style="font-family:verdana;"> Hi everyone! This page is about the scope of the DateaDeafie project, what it is now and what it hopes to become!</h4>
 
@@ -16,6 +66,9 @@
 <p style="font-family:verdana;"> This page will be regularly updated to log what steps have been taken on the project and will update more if we find funding.</p>
 <br>
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2lV8YY0GQYXgtUWXM4NJ4X?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<p style="font-family:verdana;">This song is 4:00A.M. by Taeko Onuki, one of my personal favorites which I included here because I am an artsy type</p>
+<br>
+<p style="font-family:verdana;">Also sorry for the lacking 
 </div>
 </div>
 <center>
