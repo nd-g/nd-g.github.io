@@ -73,3 +73,18 @@ section {
 .swipe-buttons button:hover {
   opacity: 0.8;
 }
+.controls {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 15px;
+  border-radius: 8px;
+  z-index: 1000;
+  font-size: 0.9em;
+}
+
+.controls label,
+.controls select {
+  margin-right: 10px;
+}
