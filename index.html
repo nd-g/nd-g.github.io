@@ -222,6 +222,35 @@
     .footer a:hover {
       text-decoration: underline;
     }
+  .controls {
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 0.9em;
+}
+.controls {
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 0.9em;
+  color: #333; /* <-- Dark grey text */
+}
+
+.controls label,
+.controls select {
+  color: #333; /* Ensure all labels and dropdowns are dark grey */
+}
+
+
+.controls label,
+.controls select {
+  margin-right: 10px;
+}
+
 
     @media (max-width: 768px) {
       header h1 {
@@ -289,30 +318,6 @@
 <body class="default-mode"> <!-- Set the default color mode to 'default' -->
   <header>
     <h1>Date a Deafie</h1>
-    <div>
-      <label for="text-size">Text Size:</label>
-      <select id="text-size" onchange="adjustTextSize(this.value)">
-        <option value="default">Default</option>
-        <option value="large">Large</option>
-        <option value="extra-large">Extra Large</option>
-      </select>
-    </div>
-    <div>
-      <label for="color-mode">Color Mode:</label>
-      <select id="color-mode" onchange="adjustColorMode(this.value)">
-        <option value="default">Default</option>
-        <option value="protanopia">Protanopia</option>
-        <option value="deuteranopia">Deuteranopia</option>
-        <option value="tritanopia">Tritanopia</option>
-      </select>
-    </div>
-    <div>
-      <label for="deafblind-mode">Dark Mode:</label>
-      <select id="deafblind-mode" onchange="toggleDeafblindMode(this.value)">
-        <option value="disable">Disable Dark Mode</option>
-        <option value="enable">Enable Dark Mode</option>
-      </select>
-    </div>
     <p>A directory of Deaf events in the DMV to meet people</p>
       <style>
 		a {
@@ -323,9 +328,33 @@
 					color: peachpuff;
 			}
 		</style>
-	  <a href="http://about.dateadeafie.com">About Us/Contact</a>
-      <div></div>
-      <a href="http://events.dateadeafie.com">Deaf Events List</a>
+<a href="http://events.dateadeafie.com">Deaf Events List</a>
+<br>
+<a href="http://about.dateadeafie.com">About Us/Contact</a>
+<br>
+<div class="controls">
+  <label for="text-size">Text Size:</label>
+  <select id="text-size" onchange="adjustTextSize(this.value)">
+    <option value="default">Default</option>
+    <option value="large">Large</option>
+    <option value="extra-large">Extra Large</option>
+  </select>
+
+  <label for="color-mode">Color Mode:</label>
+  <select id="color-mode" onchange="adjustColorMode(this.value)">
+    <option value="default">Default</option>
+    <option value="protanopia">Protanopia</option>
+    <option value="deuteranopia">Deuteranopia</option>
+    <option value="tritanopia">Tritanopia</option>
+  </select>
+
+  <label for="deafblind-mode">Dark Mode:</label>
+  <select id="deafblind-mode" onchange="toggleDeafblindMode(this.value)">
+    <option value="disable">Disable Dark Mode</option>
+    <option value="enable">Enable Dark Mode</option>
+  </select>
+</div>
+
   </header>
   <main>
 <h2 class="centered-heading">Featured Events</h2>
