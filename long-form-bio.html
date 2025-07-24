@@ -3,6 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Tracy's Skills/Long Form Bio</title>
+	<script>
+    let titleText = " Tracy's Skills/Long Form Bio ";
+    let speed = 200; // speed in milliseconds
+
+    function scrollTitle() {
+      titleText = titleText.substring(1) + titleText.charAt(0);
+      document.title = titleText;
+      setTimeout(scrollTitle, speed);
+    }
+
+    window.onload = scrollTitle;
+  </script>
 </head>
 <body>
 <main>
